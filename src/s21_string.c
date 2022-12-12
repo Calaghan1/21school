@@ -93,7 +93,7 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
 }
 
 char *s21_strchr(const char *str, int c) {
-    char *res = NULL;
+    char *res = s21_NULL;
     char *str1 = (char*)str;
     int i = 0;
     
@@ -133,9 +133,16 @@ int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
 char *s21_strcpy(char *dest, const char *src) {
   char *res = dest;
 
-  while (*src) {
-    *dest++ = *src++;
-  }
+    if (dest != s21_NULL && src != s21_NULL) {
+        
+        while ((*dest++ = *src++) != '\0');
+        
+        
+   //   while (*src != '\0') {
+   //       *dest++ = *src++;
+    //  }
+    //    *dest = '\0';
+    }
   //  копирует строку src в dest
   return res;
 }

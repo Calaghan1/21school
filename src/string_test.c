@@ -18,9 +18,9 @@ START_TEST(mem_test) {
   ck_assert_int_eq(memcmp(str1, str2, 0), s21_memcmp(str1, str2, 0));
   ck_assert_int_eq(memcmp(str1, str3, 3), s21_memcmp(str1, str3, 3));
 
-  ck_assert_ptr_eq(memcpy(str3, str1, 4), s21_memcpy(str3, str1, 4));
-  ck_assert_ptr_eq(memcpy(str1, str3, 4), s21_memcpy(str1, str3, 4));
-  ck_assert_str_eq(memcpy(str2, str1, 5), s21_memcpy(str2_1, str1, 5));
+    ck_assert_ptr_eq(memcpy(str3, str1, 4), s21_memcpy(str3, str1, 4));
+    ck_assert_ptr_eq(memcpy(str1, str3, 4), s21_memcpy(str1, str3, 4));
+    ck_assert_str_eq(memcpy(str2, str1, 5), s21_memcpy(str2_1, str1, 5));
     ck_assert_str_eq(memcpy(str2 + 3, str2, 5), s21_memcpy(str2 + 3, str2, 5));
     
   ck_assert_str_eq(memmove(str2, str1, 5), s21_memmove(str2, str1, 5));
@@ -36,8 +36,8 @@ START_TEST(mem_test) {
 END_TEST
 
 START_TEST(str_test) {
-  char str1[50] = "abrakadabra";
-  char str1_1[50] = "abrakadabra";
+  char str1[50] = "abraka0\tdabra";
+  char str1_1[50] = "abraka0\tdabra";
   char str2[50] = "krekspeks";
   char str2_1[50] = "krekspeks";
   char str3[100] = {0};
@@ -55,14 +55,19 @@ START_TEST(str_test) {
   ck_assert_str_eq(strncat(str2, str1, 6), s21_strncat(str2_1, str1, 6));
 
     ck_assert_ptr_eq(strchr(str1, 'k'), s21_strchr(str1, 'k'));
+    ck_assert_ptr_eq(strchr(str1, '\t'), s21_strchr(str1, '\t'));
+    ck_assert_ptr_eq(strchr(str1, '\0'), s21_strchr(str1, '\0'));
     ck_assert_ptr_eq(strchr(str1, 0), s21_strchr(str1, 0));
     ck_assert_ptr_eq(strchr(str1, -20), s21_strchr(str1, -20));
     ck_assert_ptr_eq(strchr(str1, 56), s21_strchr(str1, 56));
 
   ck_assert_int_eq(strcmp(str1, str2), s21_strcmp(str1, str2));
   ck_assert_int_eq(strncmp(str1, str2, 8), s21_strncmp(str1, str2, 8));
-
-  ck_assert_str_eq(strcpy(str3, str2), s21_strcpy(str3_1, str2_1));
+    
+    ck_assert_str_eq(strcpy(str3, str1), s21_strcpy(str3_1, str1));
+    ck_assert_str_eq(strcpy(str3, "ABC"), s21_strcpy(str3_1, "ABC"));
+    ck_assert_str_eq(strcpy(str3, ""), s21_strcpy(str3_1, ""));
+    ck_assert_str_eq(strcpy(str3, str2), s21_strcpy(str3_1, str2));
 
   ck_assert_str_eq(strncpy(str1, str2, 8), s21_strncpy(str1_1, str2_1, 8));
   ck_assert_str_eq(strncpy(str1, str2, 50), s21_strncpy(str1_1, str2_1, 50));
