@@ -86,9 +86,10 @@ START_TEST(str_test) {
   ck_assert_int_eq(strlen(str4), s21_strlen(str4_1));
 
   ck_assert_ptr_eq(strpbrk(str1, str2), s21_strpbrk(str1, str2_1));
+    ck_assert_ptr_eq(strpbrk(str1, "QQQQQQQQQ98a"), s21_strpbrk(str1, "QQQQQQQQQ98a"));
   ck_assert_ptr_eq(strpbrk(str1, str4), s21_strpbrk(str1, str4_1));
     ck_assert_ptr_eq(strpbrk(str1, "abcdef"), s21_strpbrk(str1, "abcdef"));
-    ck_assert_ptr_eq(strpbrk(str1, "98"), s21_strpbrk(str1, "98"));
+    ck_assert_ptr_eq(strpbrk(str1, "98a"), s21_strpbrk(str1, "98a"));
     
   ck_assert_ptr_eq(strrchr(str1, 'b'), s21_strrchr(str1_1, 'b'));
   ck_assert_ptr_eq(strrchr(str1, 'k'), s21_strrchr(str1_1, 'k'));
