@@ -131,6 +131,9 @@
 typedef unsigned long int s21_size_t;
 
 struct option {
+  int exist_c;
+  int prev_space;
+  int on_next_to_read;
   int count;
   int exclusion;
   int width;
