@@ -30,9 +30,11 @@ void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
   if (dest != s21_NULL && src != s21_NULL) {
     s21_size_t len_src = s21_strlen(src);
     s21_size_t len_dest = s21_strlen(dest);
+      char *str1 = (char*)dest;
+      char *str2 = (char*)src;
 
-    if ((char *)dest > &(((char *)src)[len_src]) ||
-        &(((char *)dest)[len_dest]) < (char *)src) {
+    if (str1 > &(str2[len_src]) ||
+        &(str1[len_dest]) < str2) {
       for (s21_size_t i = 0; i < n; i++) {
         ((char *)dest)[i] = ((char *)src)[i];
       }
@@ -348,63 +350,43 @@ char *s21_strtok(char *str, const char *delim) {
 // Дополнительные функции из C#:
 
 void *s21_to_upper(const char *str) {
-  char *tmp = (char *)str;
-  if (str == s21_NULL) {
-    tmp = s21_NULL;
-  } else {
-    for (int i = 0; tmp[i] != '\0'; i++) {
-      if (tmp[i] <= 'z' && tmp[i] >= 'a') {
-        tmp[i] -= 32;
-      }
+    char *tmp = s21_NULL;
+  
+      if (str != s21_NULL) {
+          tmp = calloc(s21_strlen(str), (s21_size_t)sizeof(char));
+          
+          if (tmp != s21_NULL) {
+                for (int i = 0; str[i] != '\0'; i++) {
+                    tmp[i] = str[i];
+                    if (str[i] >= 'a' && str[i] <= 'z') {
+                          tmp[i] -= 32;
+                    }
+                }
+          }
     }
-  }
-  // перевод в верхний регистр
+  // перевод в нижний регистр
   return tmp;
 }
 
 void *s21_to_lower(const char *str) {
-  char *tmp = (char *)str;
-  if (str == s21_NULL) {
-    tmp = s21_NULL;
-  } else {
-    for (int i = 0; tmp[i] != '\0'; i++) {
-      if (tmp[i] <= 'Z' && tmp[i] >= 'A') {
-        tmp[i] += 32;
-      }
+    char *tmp = s21_NULL;
+  
+      if (str != s21_NULL) {
+          tmp = calloc(s21_strlen(str), (s21_size_t)sizeof(char));
+          
+          if (tmp != s21_NULL) {
+                for (int i = 0; str[i] != '\0'; i++) {
+                    tmp[i] = str[i];
+                    if (str[i] >= 'A' && str[i] <= 'Z') {
+                          tmp[i] += 32;
+                    }
+                }
+          }
     }
-  }
   // перевод в нижний регистр
   return tmp;
 }
-/*
-// УДАЛИТЬ ?
-void *old_s21_insert(const char *src, const char *str, s21_size_t start_index) {
-  char *tmp_dest = (char *)src;
-  char *tmp_src = (char *)str;
 
-  if (src == s21_NULL || str == s21_NULL) {
-    tmp_dest = s21_NULL;
-  } else {
-    int len = s21_strlen(tmp_dest) - (int)start_index;
-    char *tmp_tmp = calloc(len, sizeof(char));
-    for (int k = 0; k < len; k++) {
-      tmp_tmp[k] = tmp_dest[(int)start_index + k];
-    }
-    int i = 0;
-    while (tmp_src[i] != '\0') {
-      tmp_dest[(int)start_index + i] = tmp_src[i];
-      i++;
-    }
-    for (int j = 0; j < len; j++) {
-      tmp_dest[(int)start_index + i + j] = tmp_tmp[j];
-    }
-    tmp_dest[(int)start_index + len + i] = '\0';
-    free(tmp_tmp);
-  }
-  // вставка строки
-  return tmp_dest;
-}
-*/
 void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
   s21_size_t len_src = s21_strlen(str);
   s21_size_t len_str = s21_strlen(src);

@@ -21,7 +21,8 @@ START_TEST(mem_test) {
   ck_assert_ptr_eq(memcpy(str3, str1, 4), s21_memcpy(str3, str1, 4));
   ck_assert_ptr_eq(memcpy(str1, str3, 4), s21_memcpy(str1, str3, 4));
   ck_assert_str_eq(memcpy(str2, str1, 5), s21_memcpy(str2_1, str1, 5));
-
+    ck_assert_str_eq(memcpy(str2 + 3, str2, 5), s21_memcpy(str2 + 3, str2, 5));
+    
   ck_assert_str_eq(memmove(str2, str1, 5), s21_memmove(str2, str1, 5));
   ck_assert_str_eq(memmove(str2, str1, 0), s21_memmove(str2, str1, 0));
   ck_assert_str_eq(memmove(str3, str1, 5), s21_memmove(str3_1, str1, 5));
@@ -128,8 +129,12 @@ START_TEST(str_test) {
     token_s21 = s21_strtok(s21_NULL, "/");
   }
 
-  ck_assert_str_eq(s21_to_upper(str3), "KREKSPEKSABRAKA");
-  ck_assert_str_eq(s21_to_lower(str3), "krekspeksabraka");
+    char upper[50] = "kreks-peks123 abc";
+    char lower[50] = "KREKS-PEKS123 ABC";
+    
+    
+  ck_assert_str_eq(s21_to_upper(upper), "KREKS-PEKS123 ABC");
+  ck_assert_str_eq(s21_to_lower(lower), "kreks-peks123 abc");
 
   char *test_1 = s21_insert(str3, str4, 5);
   ck_assert_str_eq(test_1, "krekspeksabraka");
