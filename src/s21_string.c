@@ -30,11 +30,10 @@ void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
   if (dest != s21_NULL && src != s21_NULL) {
     s21_size_t len_src = s21_strlen(src);
     s21_size_t len_dest = s21_strlen(dest);
-      char *str1 = (char*)dest;
-      char *str2 = (char*)src;
+    char *str1 = (char *)dest;
+    char *str2 = (char *)src;
 
-    if (str1 > &(str2[len_src]) ||
-        &(str1[len_dest]) < str2) {
+    if (str1 > &(str2[len_src]) || &(str1[len_dest]) < str2) {
       for (s21_size_t i = 0; i < n; i++) {
         ((char *)dest)[i] = ((char *)src)[i];
       }
@@ -66,17 +65,17 @@ void *s21_memset(void *str, int c, s21_size_t n) {
 }
 
 char *s21_strcat(char *dest, const char *src) {
-    char *str1 = dest;
-    char *str2 = (char*)src;
-    
-    while (*str1 != '\0') {
-        str1++;
-    }
-    
-    for (s21_size_t i = 0; str2[i] != '\0'; i++, str1++) {
-        *str1 = str2[i];
-    }
-    *str1 = '\0';
+  char *str1 = dest;
+  char *str2 = (char *)src;
+
+  while (*str1 != '\0') {
+    str1++;
+  }
+
+  for (s21_size_t i = 0; str2[i] != '\0'; i++, str1++) {
+    *str1 = str2[i];
+  }
+  *str1 = '\0';
   // копирует строку src в dest
   return dest;
 }
@@ -93,20 +92,20 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
 }
 
 char *s21_strchr(const char *str, int c) {
-    char *res = s21_NULL;
-    char *str1 = (char*)str;
-    int i = 0;
-    
-    while (str[i] != '\0') {
-        if (str1[i] == c) {
-          res = &(str1[i]);
-          break;
-        }
-        i++;
-    }
-    if (c == '\0' && str1[i] == c) {
+  char *res = s21_NULL;
+  char *str1 = (char *)str;
+  int i = 0;
+
+  while (str[i] != '\0') {
+    if (str1[i] == c) {
       res = &(str1[i]);
+      break;
     }
+    i++;
+  }
+  if (c == '\0' && str1[i] == c) {
+    res = &(str1[i]);
+  }
   // ищет первое вхождение с в строке
   return res;
 }
@@ -133,16 +132,15 @@ int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
 char *s21_strcpy(char *dest, const char *src) {
   char *res = dest;
 
-    if (dest != s21_NULL && src != s21_NULL) {
-        
-        while ((*dest++ = *src++) != '\0');
-        
-        
-   //   while (*src != '\0') {
-   //       *dest++ = *src++;
+  if (dest != s21_NULL && src != s21_NULL) {
+    while ((*dest++ = *src++) != '\0')
+      ;
+
+    //   while (*src != '\0') {
+    //       *dest++ = *src++;
     //  }
     //    *dest = '\0';
-    }
+  }
   //  копирует строку src в dest
   return res;
 }
@@ -368,39 +366,39 @@ char *s21_strtok(char *str, const char *delim) {
 // Дополнительные функции из C#:
 
 void *s21_to_upper(const char *str) {
-    char *tmp = s21_NULL;
-  
-      if (str != s21_NULL) {
-          tmp = calloc(s21_strlen(str), (s21_size_t)sizeof(char));
-          
-          if (tmp != s21_NULL) {
-                for (int i = 0; str[i] != '\0'; i++) {
-                    tmp[i] = str[i];
-                    if (str[i] >= 'a' && str[i] <= 'z') {
-                          tmp[i] -= 32;
-                    }
-                }
-          }
+  char *tmp = s21_NULL;
+
+  if (str != s21_NULL) {
+    tmp = calloc(s21_strlen(str), (s21_size_t)sizeof(char));
+
+    if (tmp != s21_NULL) {
+      for (int i = 0; str[i] != '\0'; i++) {
+        tmp[i] = str[i];
+        if (str[i] >= 'a' && str[i] <= 'z') {
+          tmp[i] -= 32;
+        }
+      }
     }
+  }
   // перевод в нижний регистр
   return tmp;
 }
 
 void *s21_to_lower(const char *str) {
-    char *tmp = s21_NULL;
-  
-      if (str != s21_NULL) {
-          tmp = calloc(s21_strlen(str), (s21_size_t)sizeof(char));
-          
-          if (tmp != s21_NULL) {
-                for (int i = 0; str[i] != '\0'; i++) {
-                    tmp[i] = str[i];
-                    if (str[i] >= 'A' && str[i] <= 'Z') {
-                          tmp[i] += 32;
-                    }
-                }
-          }
+  char *tmp = s21_NULL;
+
+  if (str != s21_NULL) {
+    tmp = calloc(s21_strlen(str), (s21_size_t)sizeof(char));
+
+    if (tmp != s21_NULL) {
+      for (int i = 0; str[i] != '\0'; i++) {
+        tmp[i] = str[i];
+        if (str[i] >= 'A' && str[i] <= 'Z') {
+          tmp[i] += 32;
+        }
+      }
     }
+  }
   // перевод в нижний регистр
   return tmp;
 }
