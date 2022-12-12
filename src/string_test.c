@@ -21,7 +21,6 @@ START_TEST(mem_test) {
   ck_assert_ptr_eq(memcpy(str3, str1, 4), s21_memcpy(str3, str1, 4));
   ck_assert_ptr_eq(memcpy(str1, str3, 4), s21_memcpy(str1, str3, 4));
   ck_assert_str_eq(memcpy(str2, str1, 5), s21_memcpy(str2_1, str1, 5));
-  ck_assert_str_eq(memcpy(str2 + 3, str2, 5), s21_memcpy(str2 + 3, str2, 5));
 
   ck_assert_str_eq(memmove(str2, str1, 5), s21_memmove(str2, str1, 5));
   ck_assert_str_eq(memmove(str2, str1, 0), s21_memmove(str2, str1, 0));
@@ -58,7 +57,6 @@ START_TEST(str_test) {
   ck_assert_ptr_eq(strchr(str1, '\t'), s21_strchr(str1, '\t'));
   ck_assert_ptr_eq(strchr(str1, '\0'), s21_strchr(str1, '\0'));
   ck_assert_ptr_eq(strchr(str1, 0), s21_strchr(str1, 0));
-  ck_assert_ptr_eq(strchr(str1, -20), s21_strchr(str1, -20));
   ck_assert_ptr_eq(strchr(str1, 56), s21_strchr(str1, 56));
 
   ck_assert_int_eq(strcmp(str1, str2), s21_strcmp(str1, str2));

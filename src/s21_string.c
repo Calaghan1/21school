@@ -133,13 +133,10 @@ char *s21_strcpy(char *dest, const char *src) {
   char *res = dest;
 
   if (dest != s21_NULL && src != s21_NULL) {
-    while ((*dest++ = *src++) != '\0')
-      ;
-
-    //   while (*src != '\0') {
-    //       *dest++ = *src++;
-    //  }
-    //    *dest = '\0';
+    while (*src != '\0') {
+      *dest++ = *src++;
+    }
+    *dest = '\0';
   }
   //  копирует строку src в dest
   return res;
