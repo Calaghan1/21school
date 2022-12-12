@@ -25,6 +25,6 @@ clean:
 	rm -rf report
 	rm -rf .txt test.dSYM
 style:
-	clang-format -style=google -n *.c
+	clang-format -style=google -i *.c
 cpp:
 	cppcheck --enable=all --suppress=missingIncludeSystem *.c

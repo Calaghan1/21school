@@ -1,6 +1,33 @@
 #include "s21_string.h"
 #include "string.h"
 
+int main(){
+long double e0 = -1;
+  float f0 = -1;
+  unsigned int u0 = -1;
+  char c0 = '\0';
+  char string_[70] = "Born to rule shall not bow to the sheep";
+  long double g0 = -1;
+  short int hd0 = -1;
+  long double ee = -1;
+  long double eee = -1;
+
+  long double eee_ = -1;
+  long double ee_ = -1;
+  long double e_ = -1;
+  float f_ = -1;  //
+  unsigned int u_ = -1;
+  char c_ = '\0';
+  char string_2[70] = "Born to rule shall not bow to the sheep";
+  long double g_ = -1;
+  short int hd_ = -1;
+
+    s21_sscanf("99999999 No_man_hill_enter_the_palace_alive6102 4e-000010 w2e+000001 -0000.   123450.-3.123554","%u %34s %hd %Lg %c %f %Lf %Lf %Lf", &u0, string_, &hd0, &g0, &c0, &f0,&e0, &ee, &eee);
+    sscanf("99999999 No_man_hill_enter_the_palace_alive6102 4e-000010 w34442e+000001 -0000.   123450.-3.123554","%u %34s %hd %Lg %c %f %Lf %Lf %Lf", &u_, string_2, &hd_, &g_, &c_, &f_,&e_, &ee_, &eee_);
+printf("mine =%u %34s %hd %Lg %c %f %Lf %Lf %Lf\n",u0, string_, hd0, g0, c0, f0,e0, ee, eee);
+printf("orig =%u %34s %hd %Lg %c %f %Lf %Lf %Lf\n",u_, string_2, hd_, g_, &c_, &f_,e_, ee_, eee_);
+}
+
 void lenght_width(const char* format, struct option* opt, int* i) {
   int ans = 0;
   if ((format[*i] >= '0' && format[*i] <= '9') || format[*i] == '.') {
@@ -18,7 +45,6 @@ void lenght_width(const char* format, struct option* opt, int* i) {
 }
 int s21_sscanf(const char* buff, const char* format, ...) {
   struct option opt = {0};
-
   va_list variable;
   int index = 0;
   char type;
@@ -27,8 +53,8 @@ int s21_sscanf(const char* buff, const char* format, ...) {
 
   for (int i = 0; (format[i] != '\0' && opt.stoppage == 0); i++) {
     if (format[i] == '%') {
-      i++;
       //  смотрим, не ложный ли %
+      i++;
       while (format[i] == ' ' || format[i] == '%') {
         if (format[i] == '%') {
           opt.stoppage = 1;
@@ -57,6 +83,21 @@ int s21_sscanf(const char* buff, const char* format, ...) {
           break;
         }
       } else if (format[i] == 'c') {
+        if ((i - 1) == 0) {
+          opt.prev_space = 0;
+        } else {
+          if (format[i - 1] == '*' && format[i - 2] == '%' &&
+              format[i - 3] == ' ') {
+            opt.prev_space = 1;
+          } else {
+            opt.prev_space = 0;
+          }
+          if (format[i - 2] == ' ') {
+            opt.prev_space = 1;
+          } else {
+            opt.prev_space = 0;
+          }
+        }
         mode1_func(buff, variable, pointer_to_string, &opt);
         if (opt.exclusion == 0) {
         } else {
@@ -155,6 +196,21 @@ int s21_sscanf(const char* buff, const char* format, ...) {
           break;
         }
       } else if (format[i] == 'n') {
+        if ((i - 1) == 0) {
+          opt.prev_space = 0;
+        } else {
+          if (format[i - 1] == '*' && format[i - 2] == '%' &&
+              format[i - 3] == ' ') {
+            opt.prev_space = 1;
+          } else {
+            opt.prev_space = 0;
+          }
+          if (format[i - 2] == ' ') {
+            opt.prev_space = 1;
+          } else {
+            opt.prev_space = 0;
+          }
+        }
         num_of_scanned_symbols(variable, pointer_to_string, &opt);
         if (opt.exclusion == 0) {
         } else {
@@ -229,6 +285,7 @@ int** p_adress(const char* buff, va_list variable, int* pointer_to_string,
     *sh = (int*)strtoll(array, s21_NULL, 16);
   }
   opt->count += 1;
+  opt->on_next_to_read = *pointer_to_string;
   while (buff[*pointer_to_string] == ' ') {
     *pointer_to_string += 1;
   }
@@ -237,8 +294,13 @@ int** p_adress(const char* buff, va_list variable, int* pointer_to_string,
 void num_of_scanned_symbols(va_list variable, const int* pointer_to_string,
                             struct option* opt) {
   if (opt->exclusion == 0) {
-    int* sh = (int*)va_arg(variable, int*);
-    *sh = *pointer_to_string;
+    if (opt->prev_space == 1) {
+      int* sh = (int*)va_arg(variable, int*);
+      *sh = *pointer_to_string;
+    } else {
+      int* sh = (int*)va_arg(variable, int*);
+      *sh = opt->on_next_to_read;
+    }
   }
 }
 int Hex_letters(char symb) {
@@ -317,7 +379,6 @@ void float_reader(const char* buff, va_list variable, int* pointer_to_string,
     int dot = -1;
     int dot_in_the_beginng = 0;
     char array[100] = "";
-
     for (i = 0;
          (buff[start] >= '0' && buff[start] <= '9') || (buff[start] == '.');
          i++, start++) {
@@ -329,18 +390,18 @@ void float_reader(const char* buff, va_list variable, int* pointer_to_string,
         dot_count += 1;
         if (minus == 0) {
           after_dot = start;
-          if (after_dot == 0) {
+          if (after_dot == space_counter) {
             dot_in_the_beginng = 1;
           }
         } else {
-          after_dot = start - 1;
-          if (after_dot == space_counter) {
+          after_dot = start;
+          if (after_dot == space_counter + 1) {
             dot_in_the_beginng = 1;
           }
         }
         if (plus == 1) {
-          after_dot = start - 1;
-          if (after_dot == 0) {
+          after_dot = start;
+          if (after_dot == space_counter + 1) {
             dot_in_the_beginng = 1;
           }
         }
@@ -397,8 +458,16 @@ void float_reader(const char* buff, va_list variable, int* pointer_to_string,
         if ((minus == 1 || plus == 1) && dot != 1) {
           after_dot -= 1;
         }
-        for (int y = 0; y < after_dot - space_counter; y++) {
-          num = (array[y] - '0') * pow(10, after_dot - space_counter - 1 - y);
+        if (dot_count > 1) {
+          after_dot -= 1;
+        }
+        int y = 0;
+        int something = 0;
+        while (array[something] != '\0' && array[something] != '.') {
+          something += 1;
+        }
+        for (y = 0; array[y] != '.' && array[y] != '\0'; y++) {
+          num = (array[y] - '0') * pow(10, something - y - 1);
           answer += num;
         }
         num = 1;
@@ -406,18 +475,27 @@ void float_reader(const char* buff, va_list variable, int* pointer_to_string,
           start -= 1;
         }
         after_dot = after_dot - space_counter;
-        for (after_dot += 1; after_dot < start - space_counter; after_dot++) {
-          fn = (double)(array[after_dot] - '0') / (double)pow(10, num);
-          num += 1;
-          answer += fn;
+        if (array[y] == '.') {
+          y += 1;
+        }
+        if (array[y] != '\0') {
+          for (; y < start - space_counter; y++) {
+            fn = (double)(array[y] - '0') / (double)pow(10, num);
+            num += 1;
+            answer += fn;
+          }
         }
       } else {
         if (minus == 1 || plus == 1) {
           start -= 1;
         }
         num = 1;
-        after_dot = after_dot - space_counter;
-        for (after_dot += 1; after_dot < start - space_counter; after_dot++) {
+        after_dot += 1;
+        if (minus || plus) {
+          start++;
+          after_dot++;
+        }
+        for (after_dot = 1; after_dot < i; after_dot++) {
           fn = (double)(array[after_dot] - '0') / (double)pow(10, num);
           num += 1;
           answer += fn;
@@ -426,13 +504,15 @@ void float_reader(const char* buff, va_list variable, int* pointer_to_string,
       if (minus == 1) {
         answer *= -1;
       }
-      if (minus == 1 || plus == 1) {
+      if ((minus == 1 || plus == 1) && dot_in_the_beginng == 0) {
         start += 1;
       }
+      opt->on_next_to_read = start;
       while (buff[start] == ' ') {
         start += 1;
       }
       *pointer_to_string = start;
+      printf(" YYY %c\n", buff[start]);
       if (flag_e == 1) {
         *pointer_to_string = after_e;
         answer = answer * E;
@@ -593,7 +673,6 @@ void integer_func(const char* buff, va_list variable, int* pointer_to_string,
   char array[50];
   int i = *pointer_to_string;
   int minus = 0;
-
   for (int y = 0; y < 50; y++) {
     array[y] = '\0';
   }
@@ -609,7 +688,6 @@ void integer_func(const char* buff, va_list variable, int* pointer_to_string,
       ((buff[i] == '+') && (buff[i + 1] >= '0' && buff[i + 1] <= '9'))) {
     int i1 = 0;
     int sign_count = 0;
-
     for (; (buff[i] >= '0' && buff[i] <= '9'); i++) {
       if (buff[i] == '+' || buff[i] == '-') {
         sign_count += 1;
@@ -634,7 +712,7 @@ void integer_func(const char* buff, va_list variable, int* pointer_to_string,
     }
     array[i1] = '\0';
     long long int answer = 0;
-
+    opt->on_next_to_read = i;
     for (int y = 0, num = 0; y < i1; y++) {
       num = (array[y] - 48) * pow(10, i1 - 1 - y);
       answer += num;
@@ -702,18 +780,28 @@ void integer_type_choice(long long int answer, va_list variable,
 
 void mode1_func(const char* buff, va_list variable, int* pointer_to_string,
                 struct option* opt) {
-  while (buff[*pointer_to_string] == ' ') {
-    *pointer_to_string += 1;
+  if (opt->prev_space == 1) {
+    while (buff[*pointer_to_string] == ' ') {
+      *pointer_to_string += 1;
+    }
   }
   if (buff[*pointer_to_string] != '\0') {
     if (opt->exclusion == 0) {
-      char* sh = (char*)va_arg(variable, char*);
-      *sh = buff[*pointer_to_string];
+      if (opt->prev_space == 1) {
+        char* sh = (char*)va_arg(variable, char*);
+        *sh = buff[*pointer_to_string];
+        *pointer_to_string += 1;
+      } else {
+        char* sh = (char*)va_arg(variable, char*);
+        *sh = buff[opt->on_next_to_read];
+        opt->on_next_to_read += 1;
+      }
       opt->count += 1;
     }
-    *pointer_to_string += 1;
-    while (buff[*pointer_to_string] == ' ') {
-      *pointer_to_string += 1;
+    if (opt->prev_space == 0) {
+      *pointer_to_string = opt->on_next_to_read;
+    } else {
+      opt->on_next_to_read = *pointer_to_string;
     }
   }
 }
@@ -724,7 +812,6 @@ void mode2_func(const char* buff, va_list variable, int* pointer_to_string,
   for (int y = 0; y < 1000; y++) {
     array1[y] = '\0';
   }
-  //  int i2 = 0;
   int i_1 = *pointer_to_string;
   while (buff[i_1] == ' ') {
     i_1++;
@@ -744,12 +831,12 @@ void mode2_func(const char* buff, va_list variable, int* pointer_to_string,
         i2++;
       }
     }
-    i_1 += 1;
-
+    i_1+=1;
+    opt->on_next_to_read = i_1;
     while (buff[i_1] == ' ') {
       i_1 += 1;
     }
-
+      printf("|||| %c ||||\n", buff[i_1]);
     *pointer_to_string = i_1;
     array1[i2] = '\0';
 
@@ -766,19 +853,24 @@ void mode2_func(const char* buff, va_list variable, int* pointer_to_string,
 
 void long_symbol(const char* buff, va_list variable, int* pointer_to_string,
                  struct option* opt) {
-  while (buff[*pointer_to_string] == ' ') {
-    *pointer_to_string += 1;
-  }
-  if (buff[*pointer_to_string] != '\0') {
-    if (opt->exclusion == 0) {
-      wchar_t* sh = (wchar_t*)va_arg(variable, wchar_t*);
-      *sh = buff[*pointer_to_string];
-      opt->count += 1;
-    }
-    *pointer_to_string += 1;
+  if (opt->prev_space == 1) {
     while (buff[*pointer_to_string] == ' ') {
       *pointer_to_string += 1;
     }
+  }
+  if (buff[*pointer_to_string] != '\0') {
+    if (opt->exclusion == 0) {
+      if (opt->prev_space == 1) {
+        wchar_t* sh = (wchar_t*)va_arg(variable, wchar_t*);
+        *sh = buff[*pointer_to_string];
+      } else {
+        wchar_t* sh = (wchar_t*)va_arg(variable, wchar_t*);
+        *sh = buff[opt->on_next_to_read];
+        opt->on_next_to_read += 1;
+      }
+      opt->count += 1;
+    }
+    *pointer_to_string += opt->on_next_to_read;
   }
 }
 
@@ -788,7 +880,7 @@ void long_string(const char* buff, va_list variable, int* pointer_to_string,
   for (int y = 0; y < 750; y++) {
     array1[y] = '\0';
   }
-  // int i2 = 0;
+
   int i_1 = *pointer_to_string;
   while (buff[i_1] == ' ') {
     i_1++;
@@ -804,7 +896,7 @@ void long_string(const char* buff, va_list variable, int* pointer_to_string,
       i2++;
     }
     i_1 += 1;
-
+    opt->on_next_to_read = i_1;
     while (buff[i_1] == ' ') {
       i_1 += 1;
     }
@@ -875,6 +967,7 @@ void Octal_func(const char* buff, va_list variable, int* pointer_to_string,
     if (minus == 1) {
       res *= -1;
     }
+    opt->on_next_to_read = start;
     while (buff[start] == ' ') {
       start += 1;
     }
@@ -1013,6 +1106,7 @@ void Hex_func(const char* buff, va_list variable, int* pointer_to_string,
         res *= -1;
       }
       Hex_type_choice(res, variable, opt, type);
+      opt->on_next_to_read = start;
       while (buff[start] == ' ') {
         start += 1;
       }

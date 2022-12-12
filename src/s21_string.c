@@ -217,18 +217,34 @@ char *s21_strpbrk(const char *str1, const char *str2) {
   char *res = s21_NULL;
   int flag = 0;
 
-    if (str1 != NULL && str2 != NULL) {
-      for (int i = 0; str1[i] != '\0' && flag == 0; i++) {
-        for (int j = 0; str2[j] != '\0'; j++) {
-          if (str1[i] == str2[j]) {
-            res = (char *)(&str1[i]);
-            flag = 1;
-            break;
-          }
+  if (str1 != NULL && str2 != NULL) {
+    int i = 0;
+    while (str1[i] != '\0' && flag != 1) {
+      for (int j = 0; str2[j] != '\0'; j++) {
+        if (str1[i] == str2[j]) {
+          res = (char *)(&str1[i]);
+          flag = 1;
+          break;
         }
       }
+      /*
+    for (int i = 0; str1[i] != '\0' && flag != 1; i++) {
+        printf("\nA\nA\nA\n");
+        if (flag == 0) {
+            for (int j = 0; str2[j] != '\0'; j++) {
+              if (str1[i] == str2[j]) {
+                res = (char *)(&str1[i]);
+                flag = 1;
+                break;
+              }
+        }
+        } else {
+            break;
+        }
+       */
     }
-    
+  }
+
   return res;
 }
 
@@ -368,15 +384,17 @@ void *s21_to_upper(const char *str) {
   char *tmp = s21_NULL;
 
   if (str != s21_NULL) {
-    tmp = calloc(s21_strlen(str), (s21_size_t)sizeof(char));
+    tmp = calloc(s21_strlen(str) + 1, (s21_size_t)sizeof(char));
 
     if (tmp != s21_NULL) {
-      for (int i = 0; str[i] != '\0'; i++) {
+      int i = 0;
+      for (; str[i] != '\0'; i++) {
         tmp[i] = str[i];
         if (str[i] >= 'a' && str[i] <= 'z') {
           tmp[i] -= 32;
         }
       }
+      tmp[i] = '\0';
     }
   }
   // перевод в нижний регистр
@@ -387,15 +405,17 @@ void *s21_to_lower(const char *str) {
   char *tmp = s21_NULL;
 
   if (str != s21_NULL) {
-    tmp = calloc(s21_strlen(str), (s21_size_t)sizeof(char));
+    tmp = calloc(s21_strlen(str) + 1, (s21_size_t)sizeof(char));
 
     if (tmp != s21_NULL) {
-      for (int i = 0; str[i] != '\0'; i++) {
+      int i = 0;
+      for (; str[i] != '\0'; i++) {
         tmp[i] = str[i];
         if (str[i] >= 'A' && str[i] <= 'Z') {
           tmp[i] += 32;
         }
       }
+      tmp[i] = '\0';
     }
   }
   // перевод в нижний регистр
