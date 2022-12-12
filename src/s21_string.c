@@ -66,14 +66,19 @@ void *s21_memset(void *str, int c, s21_size_t n) {
 }
 
 char *s21_strcat(char *dest, const char *src) {
-  char *res = dest;
-
-  while (*dest) dest++;
-  while (*src) {
-    *dest++ = *src++;
-  }
+    char *str1 = dest;
+    char *str2 = (char*)src;
+    
+    while (*str1 != '\0') {
+        str1++;
+    }
+    
+    for (s21_size_t i = 0; str2[i] != '\0'; i++, str1++) {
+        *str1 = str2[i];
+    }
+    *str1 = '\0';
   // копирует строку src в dest
-  return res;
+  return dest;
 }
 
 char *s21_strncat(char *dest, const char *src, s21_size_t n) {
