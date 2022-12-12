@@ -479,7 +479,7 @@ void right_part(char *res, const char *trim_chars) {
   int len_res = s21_strlen(res);
   int len_trim_chars = s21_strlen(trim_chars);
 
-  for (int i = len_res - 1; i >= 0; i--) {  
+  for (int i = len_res - 1; i >= 0; i--) {
     int is_break = 1;
     for (int j = 0; j < len_trim_chars; j++) {
       if (res[i] == trim_chars[j]) {

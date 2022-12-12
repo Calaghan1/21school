@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 char *s21_strcpy(char *dest, const char *src);
 void left_part(char *res, const char *src, const char *trim_chars);
@@ -9,20 +9,18 @@ void *s21_trim(const char *src, const char *trim_chars);
 char *s21_strcpy(char *dest, const char *src);
 char *s21_strstr(const char *haystack, const char *needle);
 size_t s21_strlen(const char *str);
-int main(){
-
-//     printf("%d", strlen(""));
-char str[100] = "";
-char *stt = NULL;
-char str1[100] = "";
-// char *str2 = s21_trim(str, str1);
-// printf("%s", str2);
-printf("%s|\n", s21_strstr(stt, str1));
-printf("%s|", strstr(stt, str1));
-// free(str2);
-return 0;
+int main() {
+  //     printf("%d", strlen(""));
+  char str[100] = "";
+  char *stt = NULL;
+  char str1[100] = "";
+  // char *str2 = s21_trim(str, str1);
+  // printf("%s", str2);
+  printf("%s|\n", s21_strstr(stt, str1));
+  printf("%s|", strstr(stt, str1));
+  // free(str2);
+  return 0;
 }
-
 
 void delete_first_char(char *str) {
   int count = 0;
@@ -53,7 +51,7 @@ void right_part(char *res, const char *trim_chars) {
   int len_res = s21_strlen(res);
   int len_trim_chars = s21_strlen(trim_chars);
 
-  for (int i = len_res - 1; i >= 0; i--) {  
+  for (int i = len_res - 1; i >= 0; i--) {
     int is_break = 1;
     for (int j = 0; j < len_trim_chars; j++) {
       if (res[i] == trim_chars[j]) {
@@ -67,8 +65,8 @@ void right_part(char *res, const char *trim_chars) {
 }
 
 void *s21_trim(const char *src, const char *trim_chars) {
-    char *res = NULL;
-    res = calloc(s21_strlen(src), sizeof(char));
+  char *res = NULL;
+  res = calloc(s21_strlen(src), sizeof(char));
   if (res != NULL) {
     s21_strcpy(res, src);
     left_part(res, src, trim_chars);

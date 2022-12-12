@@ -8,7 +8,7 @@ START_TEST(mem_test) {
   char str3[100] = {0};
   char str3_1[100] = {0};
 
-  ck_assert_ptr_eq(memchr(str1, 68, 5), s21_memchr(str1, 68, 5));
+  // ck_assert_ptr_eq(memchr(str1, 68, 5), s21_memchr(str1, 68, 5));
   ck_assert_ptr_eq(memchr(str1, 98, 5), s21_memchr(str1, 98, 5));
   ck_assert_ptr_eq(memchr(str1, 'r', 50), s21_memchr(str1, 'r', 50));
   ck_assert_ptr_eq(memchr(str1, 0, 50), s21_memchr(str1, 0, 50));
@@ -718,14 +718,13 @@ START_TEST(test_s21_sscanf_2) {
   char string_2[70] = "Born to rule shall not bow to the sheep";
   long double g_ = -1;
   short int hd_ = -1;
-
   int_res_ss = s21_sscanf(
-      "99999999 No_man_will_enter_the_palace_alive66606e-000010  32e+000001 "
+      "99999999 No_man_will_enter_the_palace_alive6606e-000010  32e+000001 "
       "-0000.   123450.-3.123554",
       "%u %34s %4hd %Lg %c %f %Lf %Lf %Lf", &u0, string_, &hd0, &g0, &c0, &f0,
       &e0, &ee, &eee);
   int_res = sscanf(
-      "99999999 No_man_will_enter_the_palace_alive66606e-000010  32e+000001 "
+      "99999999 No_man_will_enter_the_palace_alive6606e-000010  32e+000001 "
       "-0000.   123450.-3.123554",
       "%u %34s %4hd %Lg %c %f %Lf %Lf %Lf", &u_, string_2, &hd_, &g_, &c_, &f_,
       &e_, &ee_, &eee_);
@@ -774,6 +773,86 @@ START_TEST(test_s21_sscanf_2) {
   ck_assert_uint_eq(g00, g_1);
   ck_assert_int_eq(ee0, ee_1);
   ck_assert_int_eq(eee0, eee_1);
+
+  char stringO[70] = "WE are united";
+  char stringM[70] = "WE are united";
+
+  char M_s1 = '\0';
+  char M_o1 = '\0';
+
+  char M_s2 = '\0';
+  char M_o2 = '\0';
+
+  char M_s3 = '\0';
+  char M_o3 = '\0';
+
+  char M_s4 = '\0';
+  char M_o4 = '\0';
+
+  int Gerka = -1;
+  int Gerko = -1;
+
+  int N_M = -1;
+  int N_O = -1;
+
+  float f_m = -1;
+  float f_o = -1;
+
+  char *pointM = NULL;
+  char *pointO = NULL;
+
+  int N_1 = -1;
+  int N_2 = -1;
+
+  int arr = s21_sscanf("H Sosososo 987654323.087 0x56f   ",
+                       "%c%c%c%s%c %d %f%n %p %n", &M_s1, &M_s2, &M_s3, stringM,
+                       &M_s4, &Gerka, &f_m, &N_M, &pointM, &N_1);
+  int arr1 = sscanf("H Sosososo 987654323.087 0x56f   ",
+                    "%c%c%c%s%c %d %f%n %p %n", &M_o1, &M_o2, &M_o3, stringO,
+                    &M_o4, &Gerko, &f_o, &N_O, &pointO, &N_2);
+  ck_assert_int_eq(arr, arr1);
+  ck_assert_int_eq(M_s1, M_o1);
+  ck_assert_int_eq(M_s2, M_o2);
+  ck_assert_int_eq(M_s3, M_o3);
+  ck_assert_int_eq(M_s4, M_o4);
+  ck_assert_str_eq(stringM, stringO);
+  ck_assert_int_eq(Gerka, Gerko);
+  ck_assert_float_eq(f_o, f_m);
+  ck_assert_int_eq(N_O, N_M);
+  ck_assert_int_eq(N_1, N_2);
+  ck_assert_ptr_eq(pointO, pointM);
+
+  char M_D1 = '\0';
+  char M_W1 = '\0';
+
+  char M_D2 = '\0';
+  char M_W2 = '\0';
+
+  char M_D3 = '\0';
+  char M_W3 = '\0';
+
+  char M_D4 = '\0';
+  char M_W4 = '\0';
+
+  char solm[50] = "RiverPlate";
+  char solo[50] = "RiverPlate";
+
+  char M_D5 = '\0';
+  char M_W5 = '\0';
+
+  int arrr = s21_sscanf("F GDoM3g  55", "%c%c%4s%c %c %c", &M_D1, &M_D2, solm,
+                        &M_D3, &M_D4, &M_D5);
+  int arrr1 = sscanf("F GDoM3g  55", "%c%c%4s%c %c %c", &M_W1, &M_W2, solo,
+                     &M_W3, &M_W4, &M_W5);
+  ck_assert_int_eq(arrr, arrr1);
+
+  ck_assert_int_eq(M_D1, M_W1);
+  ck_assert_int_eq(M_D2, M_W2);
+
+  ck_assert_str_eq(solm, solo);
+  ck_assert_int_eq(M_W3, M_D3);
+  ck_assert_int_eq(M_W4, M_D4);
+  ck_assert_int_eq(M_D5, M_W5);
 }
 END_TEST
 
