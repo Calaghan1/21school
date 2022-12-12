@@ -93,14 +93,20 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
 }
 
 char *s21_strchr(const char *str, int c) {
-  char *res = s21_NULL;
-
-  for (int i = 0; str[i] != '\0'; i++) {
-    if (str[i] == c) {
-      res = (char *)(str + i);
-      break;
+    char *res = NULL;
+    char *str1 = (char*)str;
+    int i = 0;
+    
+    while (str[i] != '\0') {
+        if (str1[i] == c) {
+          res = &(str1[i]);
+          break;
+        }
+        i++;
     }
-  }
+    if (c == '\0' && str1[i] == c) {
+      res = &(str1[i]);
+    }
   // ищет первое вхождение с в строке
   return res;
 }

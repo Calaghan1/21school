@@ -54,10 +54,12 @@ START_TEST(str_test) {
   ck_assert_str_eq(strcat(str3, str2), s21_strcat(str3_1, str2));
   ck_assert_str_eq(strncat(str2, str1, 6), s21_strncat(str2_1, str1, 6));
 
-  ck_assert_str_eq(strchr(str1, 'k'), s21_strchr(str1, 'k'));
+    ck_assert_ptr_eq(strchr(str1, 'k'), s21_strchr(str1, 'k'));
+    ck_assert_ptr_eq(strchr(str1, 0), s21_strchr(str1, 0));
+    ck_assert_ptr_eq(strchr(str1, -20), s21_strchr(str1, -20));
+    ck_assert_ptr_eq(strchr(str1, 56), s21_strchr(str1, 56));
 
   ck_assert_int_eq(strcmp(str1, str2), s21_strcmp(str1, str2));
-
   ck_assert_int_eq(strncmp(str1, str2, 8), s21_strncmp(str1, str2, 8));
 
   ck_assert_str_eq(strcpy(str3, str2), s21_strcpy(str3_1, str2_1));
