@@ -276,7 +276,7 @@ char *s21_strstr(const char *haystack, const char *needle) {
     int seek = 0;
     int i = 0;
 
-    for (i = 0; haystack[i] != '\0'; i++) {
+    for (; haystack[i] != '\0'; i++) {
       if (haystack[i] == needle[seek]) {
         seek++;
         if (needle[seek] == '\0') {

@@ -97,7 +97,10 @@ START_TEST(str_test) {
   ck_assert_int_eq(strspn(str1, str4), s21_strspn(str1_1, str4_1));
   ck_assert_int_eq(strspn(add1, add3), s21_strspn(add1, add3));
 
-  ck_assert_ptr_eq(strstr(str1, str2), s21_strstr(str1_1, str2_1));
+  ck_assert_ptr_eq(strstr(str1, str2), s21_strstr(str1, str2));
+  ck_assert_ptr_eq(strstr(str1, str2), s21_strstr(str1, str2));
+  ck_assert_ptr_eq(strstr(str1, "ka"), s21_strstr(str1, "ka"));
+  ck_assert_ptr_eq(strstr(str1, ""), s21_strstr(str1, ""));
   ck_assert_ptr_eq(strstr(str1, str4), s21_strstr(str1, str4));
 
   char tokstr[] =
@@ -182,13 +185,13 @@ START_TEST(sprintf_test) {
   short int sh_it = 134;
   long int lon_it = 123123123;
   int resultt1 = sprintf(
-      str_sprintf, "%%  %s %.0f %.0f %f %f %c %d %d %d %i %u %u %hd %ld %Lf\n",
+      str_sprintf, "%%  %s %.0f %.0f %f %f %-c %d %d %d %i %u %u %hd %ld %Lf\n",
       string_for_sprintf, a_float, b_float, c_float, d_float, symbol, a_int,
       b_int, c_int, a_int, a_un_int, b_un_int, sh_it, lon_it, l_db);
 
   int resultt2 = s21_sprintf(
       str_s21_sprintf,
-      "%%  %s %.0f %.0f %f %f %c %d %d %d %i %u %u %hd %ld %Lf\n",
+      "%%  %s %.0f %.0f %f %f %-c %d %d %d %i %u %u %hd %ld %Lf\n",
       string_for_sprintf, a_float, b_float, c_float, d_float, symbol, a_int,
       b_int, c_int, a_int, a_un_int, b_un_int, sh_it, lon_it, l_db);
 
@@ -273,12 +276,8 @@ START_TEST(sprintf_test) {
   ck_assert_int_eq(resultt1, resultt2);
 
   // PART 3
-  // int chislo = 0;
-  // int *po = &chislo;
-  char stroka[] = "%g %E qwe%G %e qwer%g  ";
+  char stroka[80] = "%g %E qwe%G %e qwer%g  ";
   float g_int = 123;
-  // int g2_int = 1234;
-  // int *pointer = &g_int;
 
   resultt1 = 0;
   resultt2 = 0;
@@ -286,7 +285,17 @@ START_TEST(sprintf_test) {
   resultt1 = sprintf(qwert12, stroka, g_int, g_int, g_int, g_int, g_int);
 
   resultt2 = s21_sprintf(qwert22, stroka, g_int, g_int, g_int, g_int, g_int);
-  // printf("\n%s\n%s\n", qwert12, qwert22);
+  ck_assert_str_eq(str_sprintf, str_s21_sprintf);
+  ck_assert_int_eq(resultt1, resultt2);
+
+  long int number9999 = 9999;
+
+  char stroka9[80] = "%-0g %-0E qwe%-5G %e qwer%-5g %Ld ";
+  resultt1 =
+      sprintf(qwert12, stroka9, g_int, g_int, g_int, g_int, g_int, number9999);
+
+  resultt2 = s21_sprintf(qwert22, stroka9, g_int, g_int, g_int, g_int, g_int,
+                         number9999);
   ck_assert_str_eq(str_sprintf, str_s21_sprintf);
   ck_assert_int_eq(resultt1, resultt2);
 
@@ -451,15 +460,16 @@ START_TEST(test_s21_sprintf_g_G) {
 
   char str_result_L[200] = {'\0'};
   char real_str_result_L[200] = {'\0'};
+  void *padr = &str_result_L;
   long double n1l = -0.3243;
   long double n2l = 0.999;
   long double n3l = 10000.0;
   long double n4l = 314.15;
-  char *format_L = "%15.10Lg %10.1Lg %1.6LG %10.8LG %*.*LG";
+  char *format_L = "%15.10Lg %10.1Lg %1.6LG %10.8LG %*.*LG %p";
   int result_L =
-      s21_sprintf(str_result_L, format_L, n1l, n2l, n3l, n4l, 12, 1, n1l);
-  int real_result_L =
-      sprintf(real_str_result_L, format_L, n1l, n2l, n3l, n4l, 12, 1, n1l);
+      s21_sprintf(str_result_L, format_L, n1l, n2l, n3l, n4l, 12, 1, n1l, padr);
+  int real_result_L = sprintf(real_str_result_L, format_L, n1l, n2l, n3l, n4l,
+                              12, 1, n1l, padr);
   ck_assert_str_eq(str_result_L, real_str_result_L);
   ck_assert_int_eq(result_L, real_result_L);
 
@@ -469,11 +479,11 @@ START_TEST(test_s21_sprintf_g_G) {
   unsigned int n2l1 = +0007654;
   unsigned long n3l1 = 07654323456707;
   unsigned long n4l1 = 0xfac123ed;
-  char *format_L1 = "%15.10hx %10.20o %1.6lx %10.8lo %*.*hX";
-  int result_L1 = s21_sprintf(str_result_L1, format_L1, n1l1, n2l1, n3l1, n4l1,
-                              12, 1, n1l1);
-  int real_result_L1 = sprintf(real_str_result_L1, format_L1, n1l1, n2l1, n3l1,
-                               n4l1, 12, 1, n1l1);
+  char *format_L1 = "%lu %hu %-ho %-15.10hx %10.20o %-0lx %10.8lo %*.*hX";
+  int result_L1 = s21_sprintf(str_result_L1, format_L1, n3l1, n1l1, n1l1, n1l1,
+                              n2l1, n3l1, n4l1, 12, 1, n1l1);
+  int real_result_L1 = sprintf(real_str_result_L1, format_L1, n3l1, n1l1, n1l1,
+                               n1l1, n2l1, n3l1, n4l1, 12, 1, n1l1);
   ck_assert_str_eq(str_result_L1, real_str_result_L1);
   ck_assert_int_eq(result_L1, real_result_L1);
 }
