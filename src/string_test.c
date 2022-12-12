@@ -161,8 +161,8 @@ START_TEST(str_test) {
   free(test_8);
   free(test_9);
 
-  char *str_trim = s21_trim("***destroyer***", "*");
-  ck_assert_str_eq(str_trim, "destroyer");
+  char *str_trim = s21_trim("***destroyer***", "*d");
+  ck_assert_str_eq(str_trim, "estroyer");
   free(str_trim);
   char *str_trim_1 = s21_trim("***destroyer***", "");
   ck_assert_str_eq(str_trim_1, "***destroyer***");
@@ -647,7 +647,6 @@ START_TEST(test_s21_sscanf_2) {
   ck_assert_int_eq(res_o, res_o_ss);
   ck_assert_ptr_eq(ptr, ptr_ss);
   ck_assert_str_eq(str_result, str_result_ss);
-
   char str_result_2[100] = {'\0'};
   char str_result_ss_2[100] = {'\0'};
   res = sscanf("5 0x18fe kjhgkwhgkjag\t", "%% %14s ", str_result_2);

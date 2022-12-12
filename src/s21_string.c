@@ -459,7 +459,7 @@ void right_part(char *res, const char *trim_chars) {
   int len_res = s21_strlen(res);
   int len_trim_chars = s21_strlen(trim_chars);
 
-  for (int i = len_res - 1; i >= 0; i--) {
+  for (int i = len_res - 1; i >= 0; i--) {  
     int is_break = 1;
     for (int j = 0; j < len_trim_chars; j++) {
       if (res[i] == trim_chars[j]) {
@@ -473,11 +473,11 @@ void right_part(char *res, const char *trim_chars) {
 }
 
 void *s21_trim(const char *src, const char *trim_chars) {
-  char *res = calloc(s21_strlen(src), sizeof(char));
-
-  s21_strcpy(res, src);
-  left_part(res, src, trim_chars);
-  right_part(res, trim_chars);
-
+  char *res = calloc(s21_strlen(src) + 1, sizeof(char));
+  if (res != NULL) {
+    s21_strcpy(res, src);
+    left_part(res, src, trim_chars);
+    right_part(res, trim_chars);
+  }
   return (void *)res;
 }
