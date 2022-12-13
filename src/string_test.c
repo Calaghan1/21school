@@ -837,12 +837,12 @@ START_TEST(test_s21_sscanf_2) {
 
   wchar_t wSs2[50] = {'1'};
 
-  int arr = s21_sscanf("H Sosososo 987654323.087   0x56fx Gravity   ",
-                       "%c%c%c%s%c %d %f%n %5p%lc%ls %ls %n%lc", &M_s1, &M_s2,
-                       &M_s3, stringM, &M_s4, &Gerka, &f_m, &N_M, &pointM,
-                       &wchM, wOs, wOs2, &N_1, &chg);
-  int arr1 = sscanf("H Sosososo 987654323.087   0x56fx Gravity   ",
-                    "%c%c%c%s%c %d %f%n %5p%lc%ls %ls %n%lc", &M_o1, &M_o2,
+  int arr = s21_sscanf("H Sosososo 987654323.087   0x56fx Gravity   q",
+                       "%c%c%c%8s%c %d %f%n %5p%lc%7ls %1ls %n%lc", &M_s1,
+                       &M_s2, &M_s3, stringM, &M_s4, &Gerka, &f_m, &N_M,
+                       &pointM, &wchM, wOs, wOs2, &N_1, &chg);
+  int arr1 = sscanf("H Sosososo 987654323.087   0x56fx Gravity   q",
+                    "%c%c%c%8s%c %d %f%n %5p%lc%7ls %1ls %n%lc", &M_o1, &M_o2,
                     &M_o3, stringO, &M_o4, &Gerko, &f_o, &N_O, &pointO, &wchO,
                     wSs, wSs2, &N_2, &chg1);
   ck_assert_int_eq(arr, arr1);
