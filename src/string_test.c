@@ -821,29 +821,30 @@ START_TEST(test_s21_sscanf_2) {
   int N_1 = -1;
   int N_2 = -1;
 
+  wchar_t wchM = '\0';
 
-   wchar_t wchM = '\0';
+  wchar_t wchO = '\0';
 
-   wchar_t wchO = '\0';
+  wchar_t chg = 'H';
 
-   wchar_t chg = 'H';
+  wchar_t chg1 = 'H';
 
-   wchar_t chg1 = 'H';
+  wchar_t wOs[50] = {'1'};
 
-   wchar_t wOs[50] = {1};
+  wchar_t wOs2[50] = {'1'};
 
-   wchar_t wOs2[50] = {1};
+  wchar_t wSs[50] = {'1'};
 
-   wchar_t  wSs[50] = {1};
+  wchar_t wSs2[50] = {'1'};
 
-   wchar_t wSs2[50] = {1};
-
-  int arr = s21_sscanf("H Sosososo 987654323.087   0x56fx Gravity France g",
-                       "%c%c%c%s%c %d %f%n %5p%lc%ls%ls %n%lc", &M_s1, &M_s2, &M_s3, stringM,
-                       &M_s4, &Gerka, &f_m, &N_M, &pointM, &wchM, wOs, wOs2, &N_1, &chg);
-  int arr1 = sscanf("H Sosososo 987654323.087   0x56fx Gravity France g",
-                    "%c%c%c%s%c %d %f%n %5p%lc%ls%ls %n%lc", &M_o1, &M_o2, &M_o3, stringO,
-                    &M_o4, &Gerko, &f_o, &N_O, &pointO, &wchO, wSs, wSs2, &N_2,&chg1);
+  int arr = s21_sscanf("H Sosososo 987654323.087   0x56fx Gravity   ",
+                       "%c%c%c%s%c %d %f%n %5p%lc%ls %ls %n%lc", &M_s1, &M_s2,
+                       &M_s3, stringM, &M_s4, &Gerka, &f_m, &N_M, &pointM,
+                       &wchM, wOs, wOs2, &N_1, &chg);
+  int arr1 = sscanf("H Sosososo 987654323.087   0x56fx Gravity   ",
+                    "%c%c%c%s%c %d %f%n %5p%lc%ls %ls %n%lc", &M_o1, &M_o2,
+                    &M_o3, stringO, &M_o4, &Gerko, &f_o, &N_O, &pointO, &wchO,
+                    wSs, wSs2, &N_2, &chg1);
   ck_assert_int_eq(arr, arr1);
   ck_assert_int_eq(M_s1, M_o1);
   ck_assert_int_eq(M_s2, M_o2);
@@ -853,11 +854,11 @@ START_TEST(test_s21_sscanf_2) {
   ck_assert_int_eq(Gerka, Gerko);
   ck_assert_float_eq(f_o, f_m);
   ck_assert_int_eq(N_O, N_M);
-  ck_assert_int_eq(wchM , wchO);
+  ck_assert_int_eq(wchM, wchO);
   ck_assert_str_eq((char *)wOs, (char *)wSs);
-  ck_assert_str_eq((char *)wOs2,(char *) wSs2);
+  ck_assert_str_eq((char *)wOs2, (char *)wSs2);
   ck_assert_int_eq(N_1, N_2);
-    ck_assert_int_eq(chg1, chg);
+  ck_assert_int_eq(chg1, chg);
   ck_assert_ptr_eq(pointO, pointM);
 
   char M_D1 = '\0';
