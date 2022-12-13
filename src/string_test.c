@@ -140,10 +140,8 @@ START_TEST(str_test) {
     token = strtok(s21_NULL, "/");
     token_s21 = s21_strtok(s21_NULL, "/");
   }
-    
-    
-    
-    //  C# functions:
+
+  //  C# functions:
 
   char upper[20] = "kreks-peks123 abc";
   char lower[20] = "KREKS-PEKS123 ABC";
@@ -155,7 +153,7 @@ START_TEST(str_test) {
   ck_assert_str_eq(test_1, "krekspeksabraka");
   char *test_2 = s21_insert(str3, str2, 5);
   ck_assert_str_eq(test_2, "krekskrekspeksabrakapeksabraka");
-    
+
   free(test_1);
   free(test_2);
 
@@ -165,22 +163,19 @@ START_TEST(str_test) {
   ck_assert_str_eq(test_8, "ABC");
   char *test_9 = s21_insert(abc1, abc2, 0);
   ck_assert_str_eq(test_9, "ABC");
-    
-    
-    
-    test_8 = s21_insert(abc1, "abc", 3);
-    ck_assert_str_eq(test_8, "ABCabc");
-    test_9 = s21_insert(abc1, "abc", 3);
-    ck_assert_str_eq(test_9, "ABCabc");
-    
-    test_8 = s21_insert(abc1, "", 3);
-    
-    printf("TEST8 = %s\n", test_8);
-    ck_assert_str_eq(test_8, "ABCabc");
+
+  test_8 = s21_insert(abc1, "abc", 3);
+  ck_assert_str_eq(test_8, "ABCabc");
+  test_9 = s21_insert(abc1, "abc", 3);
+  ck_assert_str_eq(test_9, "ABCabc");
+
+  test_8 = s21_insert(abc1, "", 3);
+
+  printf("TEST8 = %s\n", test_8);
+  ck_assert_str_eq(test_8, "ABCabc");
   //  test_9 = s21_insert(abc1, "", 3);
- //   ck_assert_str_eq(test_9, "ABCabc");
-    
-    
+  //   ck_assert_str_eq(test_9, "ABCabc");
+
   free(test_8);
   free(test_9);
 

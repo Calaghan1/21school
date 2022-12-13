@@ -432,33 +432,30 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
     s21_size_t len_str = s21_strlen(src);
     s21_size_t length = len_src + len_str + 1;
     res = (char *)calloc(length, sizeof(char));
-      
-      
-      printf("\n\nsrc %ld   str %ld\n", len_src, len_str);
+
+    printf("\n\nsrc %ld   str %ld\n", len_src, len_str);
 
     if (res != s21_NULL) {
       s21_size_t i = 0, j = 0, k = 0;
-        
-        if (str[0] == '\0') {
-            start_index = len_src;
-        }
-        
-        
-        
+
+      if (str[0] == '\0') {
+        start_index = len_src;
+      }
+
       while (i < start_index) {
         res[i] = src[i];
-        
+
         i++;
       }
-        
-          while (j < len_src) {
-            res[i + j] = str[j];
-            j++;
-          }
-        
+
+      while (j < len_src) {
+        res[i + j] = str[j];
+        j++;
+      }
+
       while (k < (len_str - start_index)) {
         res[i + j + k] = src[start_index + k];
-          printf("SRC2  =  %c\n", src[start_index + k]);
+        printf("SRC2  =  %c\n", src[start_index + k]);
         k++;
       }
       res[i + j + k] = '\0';
