@@ -215,9 +215,9 @@ s21_size_t s21_strlen(const char *str) {
 
 char *s21_strpbrk(const char *str1, const char *str2) {
   char *res = s21_NULL;
-  int flag = 0;
 
   if (str1 != NULL && str2 != NULL) {
+    int flag = 0;
     int i = 0;
     while (str1[i] != '\0' && flag != 1) {
       for (int j = 0; str2[j] != '\0'; j++) {
@@ -415,7 +415,7 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
     s21_size_t len_str = s21_strlen(src);
     s21_size_t length = len_src + len_str + 1;
     res = (char *)calloc(length, sizeof(char));
-      
+
     if (res != s21_NULL) {
       s21_size_t i = 0, j = 0, k = 0;
 
@@ -428,7 +428,7 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
         res[i] = src[i];
         i++;
       }
-        
+
       while (j < len_src) {
         res[i + j] = str[j];
         j++;
@@ -488,14 +488,14 @@ void right_part(char *res, const char *trim_chars) {
 }
 
 void *s21_trim(const char *src, const char *trim_chars) {
-    char *res = s21_NULL;
-    if (src != s21_NULL) {
-      res = (char*)calloc(s21_strlen(src) + 1, sizeof(char));
-      if (res != s21_NULL) {
-        s21_strcpy(res, src);
-            left_part(res, src, trim_chars);
-            right_part(res, trim_chars);
-      }
+  char *res = s21_NULL;
+  if (src != s21_NULL) {
+    res = (char *)calloc(s21_strlen(src) + 1, sizeof(char));
+    if (res != s21_NULL) {
+      s21_strcpy(res, src);
+      left_part(res, src, trim_chars);
+      right_part(res, trim_chars);
     }
+  }
   return (void *)res;
 }
