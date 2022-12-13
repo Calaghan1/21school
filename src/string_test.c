@@ -39,12 +39,12 @@ START_TEST(str_test) {
   char str1_1[50] = "abraka0\tdabra";
   char str2[50] = "krekspeks";
   char str2_1[50] = "krekspeks";
-  char str3[100] = {0};
-  char str3_1[100] = {0};
+  char str3[50] = {0};
+  char str3_1[50] = {0};
   char str4[5] = "";
   char str4_1[5] = "";
-  char add1[100] = "Turky is an empire of god's nature";
-  char add2[100] = "Turky is an empire of god's nature";
+  char add1[50] = "Turky is an empire of god's nature";
+  char add2[50] = "Turky is an empire of god's nature";
   char add3[15] = "nature";
   char add4[15] = "nature";
 
@@ -140,9 +140,13 @@ START_TEST(str_test) {
     token = strtok(s21_NULL, "/");
     token_s21 = s21_strtok(s21_NULL, "/");
   }
+    
+    
+    
+    //  C# functions:
 
-  char upper[50] = "kreks-peks123 abc";
-  char lower[50] = "KREKS-PEKS123 ABC";
+  char upper[20] = "kreks-peks123 abc";
+  char lower[20] = "KREKS-PEKS123 ABC";
 
   ck_assert_str_eq(s21_to_upper(upper), "KREKS-PEKS123 ABC");
   ck_assert_str_eq(s21_to_lower(lower), "kreks-peks123 abc");
@@ -151,6 +155,7 @@ START_TEST(str_test) {
   ck_assert_str_eq(test_1, "krekspeksabraka");
   char *test_2 = s21_insert(str3, str2, 5);
   ck_assert_str_eq(test_2, "krekskrekspeksabrakapeksabraka");
+    
   free(test_1);
   free(test_2);
 
@@ -160,6 +165,22 @@ START_TEST(str_test) {
   ck_assert_str_eq(test_8, "ABC");
   char *test_9 = s21_insert(abc1, abc2, 0);
   ck_assert_str_eq(test_9, "ABC");
+    
+    
+    
+    test_8 = s21_insert(abc1, "abc", 3);
+    ck_assert_str_eq(test_8, "ABCabc");
+    test_9 = s21_insert(abc1, "abc", 3);
+    ck_assert_str_eq(test_9, "ABCabc");
+    
+    test_8 = s21_insert(abc1, "", 3);
+    
+    printf("TEST8 = %s\n", test_8);
+    ck_assert_str_eq(test_8, "ABCabc");
+  //  test_9 = s21_insert(abc1, "", 3);
+ //   ck_assert_str_eq(test_9, "ABCabc");
+    
+    
   free(test_8);
   free(test_9);
 
@@ -176,8 +197,8 @@ END_TEST
 START_TEST(sprintf_test) {
   // ГЛАВНЫЕ ОБЯЗАТЕЛЬНЫЕ ФЛАГИ
 
-  char str_sprintf[2000] = {'\0'};
-  char str_s21_sprintf[2000] = {'\0'};
+  char str_sprintf[200] = {'\0'};
+  char str_s21_sprintf[200] = {'\0'};
   char symbol = 'K';
   char string_for_sprintf[] = "ABCDEF";
   int a_int = 50, b_int = -50, c_int = 0;
@@ -215,8 +236,8 @@ START_TEST(sprintf_test) {
   ck_assert_str_eq(str_sprintf, str_s21_sprintf);
   ck_assert_int_eq(resultt1, resultt2);
 
-  char rs1[1000] = {'\0'};
-  char rs2[1000] = {'\0'};
+  char rs1[100] = {'\0'};
+  char rs2[100] = {'\0'};
 
   resultt1 = sprintf(rs1, "%%+ %+f %+f %+f %+f %+d %+d %+d %+i", a_float,
                      b_float, c_float, d_float, a_int, b_int, c_int, a_int);
@@ -236,8 +257,8 @@ START_TEST(sprintf_test) {
   ck_assert_str_eq(str_sprintf, str_s21_sprintf);
   ck_assert_int_eq(resultt1, resultt2);
 
-  char qwert8[1000] = {'\0'};
-  char qwert9[1000] = {'\0'};
+  char qwert8[100] = {'\0'};
+  char qwert9[100] = {'\0'};
 
   resultt1 = sprintf(qwert8, "%% ' ' % f % f % f % d % d % d", a_float, b_float,
                      c_float, a_int, b_int, c_int);
@@ -248,8 +269,8 @@ START_TEST(sprintf_test) {
   ck_assert_str_eq(qwert8, qwert9);
   ck_assert_int_eq(resultt1, resultt2);
 
-  char qwert1[1000] = {'\0'};
-  char qwert2[1000] = {'\0'};
+  char qwert1[100] = {'\0'};
+  char qwert2[100] = {'\0'};
 
   resultt1 = sprintf(
       qwert1, "%%.5 %.5s %.0f %.5f %.5f %.5f %c %.5d %.5d %.5i %.5u %.0f",
@@ -264,8 +285,8 @@ START_TEST(sprintf_test) {
   ck_assert_str_eq(qwert1, qwert2);
   ck_assert_int_eq(resultt1, resultt2);
 
-  char qwert12[1000] = {'\0'};
-  char qwert22[1000] = {'\0'};
+  char qwert12[100] = {'\0'};
+  char qwert22[100] = {'\0'};
 
   long int a_li = 9999999, b_li = -9999999, c_li = 0;
   double a_lf = 123456.123456, b_lf = 123456.123456, c_lf = 0.0;
