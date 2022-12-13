@@ -369,7 +369,6 @@ char *s21_strtok(char *str, const char *delim) {
     static_str = s21_NULL;
     return str;
   }
-
   if ((void *)(str + end_of_token + 1) != s21_NULL) {
     static_str = (str + end_of_token + 1);
   } else {
@@ -377,7 +376,6 @@ char *s21_strtok(char *str, const char *delim) {
   }
   return str;
 }
-
 // Дополнительные функции из C#:
 
 void *s21_to_upper(const char *str) {
@@ -432,33 +430,20 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
     s21_size_t len_str = s21_strlen(src);
     s21_size_t length = len_src + len_str + 1;
     res = (char *)calloc(length, sizeof(char));
-      
-      
-      printf("\n\nsrc %ld   str %ld\n", len_src, len_str);
 
     if (res != s21_NULL) {
       s21_size_t i = 0, j = 0, k = 0;
-        
-        if (str[0] == '\0') {
-            start_index = len_src;
-        }
-        
-        
-        
+
       while (i < start_index) {
         res[i] = src[i];
-        
         i++;
       }
-        
-          while (j < len_src) {
-            res[i + j] = str[j];
-            j++;
-          }
-        
+      while (j < len_src) {
+        res[i + j] = str[j];
+        j++;
+      }
       while (k < (len_str - start_index)) {
         res[i + j + k] = src[start_index + k];
-          printf("SRC2  =  %c\n", src[start_index + k]);
         k++;
       }
       res[i + j + k] = '\0';
@@ -511,11 +496,19 @@ void right_part(char *res, const char *trim_chars) {
 }
 
 void *s21_trim(const char *src, const char *trim_chars) {
-  char *res = calloc(s21_strlen(src) + 1, sizeof(char));
-  if (res != NULL) {
-    s21_strcpy(res, src);
-    left_part(res, src, trim_chars);
-    right_part(res, trim_chars);
-  }
+    char *res = s21_NULL;
+    if (src != s21_NULL) {
+      res = (char*)calloc(s21_strlen(src) + 1, sizeof(char));
+       // printf("CHECK1\n\n");
+      if (res != s21_NULL) {
+       //   printf("CHECK2\n\n");
+        s21_strcpy(res, src);
+       //   if (trim_chars != s21_NULL) {
+           //   printf("CHECK3\n\n");
+            left_part(res, src, trim_chars);
+            right_part(res, trim_chars);
+        //  }
+      }
+    }
   return (void *)res;
 }
