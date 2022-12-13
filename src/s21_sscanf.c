@@ -56,6 +56,7 @@ int s21_sscanf(const char* buff, const char* format, ...) {
           break;
         }
       } else if (format[i] == 'c') {
+        if(opt.prev_space == -1){opt.prev_space = 1;} else
         if ((i - 1) == 0) {
           opt.prev_space = 0;
         } else {
@@ -246,8 +247,7 @@ int** p_adress(const char* buff, va_list variable, int* pointer_to_string,
   int x_count = 0;
   if (((buff[*pointer_to_string] >= '0' && buff[*pointer_to_string] <= '9') ||
        (buff[*pointer_to_string] >= 'a' && buff[*pointer_to_string] <= 'f') ||
-       (buff[*pointer_to_string] >= 'A' && buff[*pointer_to_string] <= 'F') ||
-       (buff[*pointer_to_string] == 'x' || buff[*pointer_to_string] == 'X'))) {
+       (buff[*pointer_to_string] >= 'A' && buff[*pointer_to_string] <= 'F'))) {
     for (int i = 0;
          ((buff[*pointer_to_string] >= '0' &&
            buff[*pointer_to_string] <= '9') ||
@@ -265,6 +265,10 @@ int** p_adress(const char* buff, va_list variable, int* pointer_to_string,
       }
       if (opt->width > 0) {
         if (opt->width == i) {
+          if(array[i-1] == 'x' || array[i-1] == 'X'){
+            array[i] = '\0';
+            *pointer_to_string-=1;
+          }
           break;
         }
       }
@@ -289,6 +293,7 @@ void num_of_scanned_symbols(va_list variable, const int* pointer_to_string,
                             struct option* opt) {
   if (opt->exclusion == 0) {
     if (opt->prev_space == 1) {
+      opt->prev_space= -1;
       int* sh = (int*)va_arg(variable, int*);
       *sh = *pointer_to_string;
     } else {
@@ -655,6 +660,7 @@ void int_buff_reader(const char* buff, va_list variable, int* pointer_to_string,
       integer_func(buff, variable, pointer_to_string, opt, type);
     }
   } else if (format[*i] == 'c') {
+    if(opt->prev_space == -1){opt->prev_space = 1;} else
     if ((*i - 2) == 0) {
       opt->prev_space = 0;
     } else {
@@ -856,6 +862,10 @@ void mode2_func(const char* buff, va_list variable, int* pointer_to_string,
       sh[i2] = '\0';
       opt->count += 1;
     }
+  } else {
+      char* sh = (char*)va_arg(variable, char*);
+      sh[0] = '\0';
+      opt->stoppage = 1;
   }
 }
 
@@ -889,18 +899,13 @@ void long_symbol(const char* buff, va_list variable, int* pointer_to_string,
 
 void long_string(const char* buff, va_list variable, int* pointer_to_string,
                  struct option* opt) {
-  wchar_t array1[750];
-  for (int y = 0; y < 750; y++) {
-    array1[y] = '\0';
-  }
-
+  wchar_t array1[950] =  {'\0'};
   int i_1 = *pointer_to_string;
   while (buff[i_1] == ' ') {
     i_1++;
   }
-  if (buff[i_1] != '\0') {
+  if (buff[i_1] != '\0') { 
     int i2 = 0;
-
     for (; buff[i_1] != ' ' && buff[i_1] != '\0'; i_1++) {
       if ((opt->width > 0) && (opt->width == i2)) {
         i_1 += 1;
@@ -924,6 +929,10 @@ void long_string(const char* buff, va_list variable, int* pointer_to_string,
       sh[i2] = '\0';
       opt->count += 1;
     }
+  } else {
+     wchar_t* sh = (wchar_t*)va_arg(variable, wchar_t*);
+     sh[0] = '\0';
+     opt->stoppage = 1;
   }
 }
 
