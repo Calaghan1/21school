@@ -169,8 +169,17 @@ START_TEST(str_test) {
   test_9 = s21_insert(abc1, "abc", 3);
   ck_assert_str_eq(test_9, "ABCabc");
 
+<<<<<<< HEAD
   test_8 = s21_insert(test_9, "", 3);
   ck_assert_str_eq(test_8, "ABCabc");
+=======
+  test_8 = s21_insert(abc1, "", 3);
+
+  printf("TEST8 = %s\n", test_8);
+  ck_assert_str_eq(test_8, "ABCabc");
+  //  test_9 = s21_insert(abc1, "", 3);
+  //   ck_assert_str_eq(test_9, "ABCabc");
+>>>>>>> 1146e311735f3e8f06456ce6f0e720b635ca1388
 
   free(test_8);
   free(test_9);

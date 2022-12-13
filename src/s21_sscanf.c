@@ -244,33 +244,44 @@ int** p_adress(const char* buff, va_list variable, int* pointer_to_string,
   }
   char array[100] = {'\0'};
   int x_count = 0;
-  for (int i = 0;
-       ((buff[*pointer_to_string] >= '0' && buff[*pointer_to_string] <= '9') ||
-        (buff[*pointer_to_string] >= 'a' && buff[*pointer_to_string] <= 'f') ||
-        (buff[*pointer_to_string] >= 'A' && buff[*pointer_to_string] <= 'F') ||
-        (buff[*pointer_to_string] == 'x' || buff[*pointer_to_string] == 'X'));
-       i++) {
-    if (buff[*pointer_to_string] == 'x' || buff[*pointer_to_string] == 'X') {
-      x_count += 1;
-    }
-    if (x_count > 1) {
-      break;
-    }
-    if (opt->width > 0) {
-      if (opt->width == i) {
+  if (((buff[*pointer_to_string] >= '0' && buff[*pointer_to_string] <= '9') ||
+       (buff[*pointer_to_string] >= 'a' && buff[*pointer_to_string] <= 'f') ||
+       (buff[*pointer_to_string] >= 'A' && buff[*pointer_to_string] <= 'F') ||
+       (buff[*pointer_to_string] == 'x' || buff[*pointer_to_string] == 'X'))) {
+    for (int i = 0;
+         ((buff[*pointer_to_string] >= '0' &&
+           buff[*pointer_to_string] <= '9') ||
+          (buff[*pointer_to_string] >= 'a' &&
+           buff[*pointer_to_string] <= 'f') ||
+          (buff[*pointer_to_string] >= 'A' &&
+           buff[*pointer_to_string] <= 'F') ||
+          (buff[*pointer_to_string] == 'x' || buff[*pointer_to_string] == 'X'));
+         i++) {
+      if (buff[*pointer_to_string] == 'x' || buff[*pointer_to_string] == 'X') {
+        x_count += 1;
+      }
+      if (x_count > 1) {
         break;
       }
+      if (opt->width > 0) {
+        if (opt->width == i) {
+          break;
+        }
+      }
+      array[i] = buff[*pointer_to_string];
+      *pointer_to_string += 1;
     }
-    array[i] = buff[*pointer_to_string];
-    *pointer_to_string += 1;
-  }
-  if (opt->exclusion == 0) {
-    *sh = (int*)strtoll(array, s21_NULL, 16);
-  }
-  opt->count += 1;
-  opt->on_next_to_read = *pointer_to_string;
-  while (buff[*pointer_to_string] == ' ') {
-    *pointer_to_string += 1;
+    if (opt->exclusion == 0) {
+      *sh = (int*)strtoll(array, s21_NULL, 16);
+    }
+    opt->count += 1;
+    opt->on_next_to_read = *pointer_to_string;
+    while (buff[*pointer_to_string] == ' ') {
+      *pointer_to_string += 1;
+    }
+  } else {
+    *sh = NULL;
+    opt->stoppage = 1;
   }
   return sh;
 }
@@ -644,6 +655,21 @@ void int_buff_reader(const char* buff, va_list variable, int* pointer_to_string,
       integer_func(buff, variable, pointer_to_string, opt, type);
     }
   } else if (format[*i] == 'c') {
+    if ((*i - 2) == 0) {
+      opt->prev_space = 0;
+    } else {
+      if (format[*i - 2] == '*' && format[*i - 3] == '%' &&
+          format[*i - 4] == ' ') {
+        opt->prev_space = 1;
+      } else {
+        opt->prev_space = 0;
+      }
+      if (format[*i - 3] == ' ') {
+        opt->prev_space = 1;
+      } else {
+        opt->prev_space = 0;
+      }
+    }
     long_symbol(buff, variable, pointer_to_string, opt);
   } else if (format[*i] == 's') {
     long_string(buff, variable, pointer_to_string, opt);
@@ -815,7 +841,6 @@ void mode2_func(const char* buff, va_list variable, int* pointer_to_string,
       }
     }
     opt->on_next_to_read = i_1;
-    //  i_1 += 1;
 
     while (buff[i_1] == ' ') {
       i_1 += 1;
@@ -878,12 +903,12 @@ void long_string(const char* buff, va_list variable, int* pointer_to_string,
 
     for (; buff[i_1] != ' ' && buff[i_1] != '\0'; i_1++) {
       if ((opt->width > 0) && (opt->width == i2)) {
+        i_1 += 1;
         break;
       }
       array1[i2] = buff[i_1];
       i2++;
     }
-    i_1 += 1;
     opt->on_next_to_read = i_1;
     while (buff[i_1] == ' ') {
       i_1 += 1;
