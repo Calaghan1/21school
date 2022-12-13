@@ -8,7 +8,7 @@ START_TEST(mem_test) {
   char str3[100] = {0};
   char str3_1[100] = {0};
 
-  // ck_assert_ptr_eq(memchr(str1, 68, 5), s21_memchr(str1, 68, 5));
+  ck_assert_ptr_eq(memchr(str1, 68, 5), s21_memchr(str1, 68, 5));
   ck_assert_ptr_eq(memchr(str1, 98, 5), s21_memchr(str1, 98, 5));
   ck_assert_ptr_eq(memchr(str1, 'r', 50), s21_memchr(str1, 'r', 50));
   ck_assert_ptr_eq(memchr(str1, 0, 50), s21_memchr(str1, 0, 50));
@@ -169,19 +169,18 @@ START_TEST(str_test) {
   test_9 = s21_insert(abc1, "abc", 3);
   ck_assert_str_eq(test_9, "ABCabc");
 
-  test_8 = s21_insert(abc1, "", 3);
-
-  // ck_assert_str_eq(test_8, "ABCabc");
-  //  test_9 = s21_insert(abc1, "", 3);
-  //   ck_assert_str_eq(test_9, "ABCabc");
+  test_8 = s21_insert(test_9, "", 3);
+  ck_assert_str_eq(test_8, "ABCabc");
+  test_8 = s21_insert(test_8, "", 3);
+  ck_assert_str_eq(test_8, "ABCabc");
 
   free(test_8);
   free(test_9);
 
   char *str_trim = s21_trim("***destroyer***", "*d");
-  //  ck_assert_str_eq(str_trim, "estroyer");
-  str_trim = s21_trim("q1w2e3rdt*y", "*d123");
-  //   ck_assert_str_eq(str_trim, "qwerty");
+  ck_assert_str_eq(str_trim, "estroyer");
+  str_trim = s21_trim("1qwer123ty23*232d", "*d123");
+  ck_assert_str_eq(str_trim, "qwer123ty");
 
   free(str_trim);
   char *str_trim_1 = s21_trim("***destroyer***", "");
