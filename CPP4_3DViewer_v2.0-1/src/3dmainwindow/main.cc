@@ -1,0 +1,14 @@
+#include <QApplication>
+#include <locale>
+
+#include "mainwindow.h"
+
+int main(int argc, char *argv[]) {
+  QApplication a(argc, argv);
+  QCoreApplication::setOrganizationName("MyProg");
+  QCoreApplication::setApplicationName("3dviewer");
+  setlocale(LC_ALL, "C");
+  s21::MainWindow w;
+  w.show();
+  return a.exec();
+}
